@@ -2,9 +2,11 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
+const { generateMarkdown } = require("./utils/generateMarkdown");
 // TODO: Create an array of questions for user input
-const questions = [  
-  inquirer.prompt([
+
+inquirer
+  .prompt([
     {
       type: "input",
       name: "projectName",
@@ -41,7 +43,8 @@ const questions = [
       'Apache License 2.0', 
       'MIT License', 
       'Boost Software License 1.0', 
-      'The Unlicense',]
+      'The Unlicense',
+      'No License',]
     },
     {
       type: "input",
@@ -63,14 +66,18 @@ const questions = [
     const folderPath = './data-storage';
     const fileName = `${data.projectName.toLowerCase().split(' ').join('')}.json`;
     const filePath = path.join(__dirname, folderPath, `${fileName}`);
+    module.exports = { fileName, data };
     fs.writeFile(filePath, JSON.stringify(data, null, '\t'), (err) =>
     err ? console.log(err) : console.log('Success!')
-    )})
-  ];
-  
+    )
+  })
+
+
   // TODO: Create a function to write README file
-  function writeToFile(fileName, data) {}
-  
+function writeToFile(fileName, data) {
+  console.log(data.projectName);
+}
+
   // TODO: Create a function to initialize app
 function init() {
 
