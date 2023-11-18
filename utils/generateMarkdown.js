@@ -1,8 +1,10 @@
-const { fileName, data } = require("index.js");
+const { data } = require("../index");
 // TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
-function renderLicenseBadge(license) {}
-
+function renderLicenseBadge(license) {
+  console.log(data);
+}
+renderLicenseBadge();
 // TODO: Create a function that returns the license link
 // If there is no license, return an empty string
 function renderLicenseLink(license) {}
