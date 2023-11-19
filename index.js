@@ -2,7 +2,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs").promises;
 const path = require("path");
-const readmeTemplate = require("./utils/README-Template");
 const { error } = require("console");
 const userData = {};
 
@@ -17,17 +16,17 @@ const promptUser = async () => {
       {
         type: "input",
         name: "description",
-        message: "How would you describe your project?",
+        message: "How would you describe your project? (Enter N/A if not required)",
       },
       {
         type: "input",
         name: "installation",
-        message: "How can your project be installed?",
+        message: "How can your project be installed? (Enter N/A if not required)",
       },
       {
         type: "input",
         name: "usage",
-        message: "How does a user navigate the application?",
+        message: "How does a user navigate the application? (Enter N/A if not required)",
       },
       {
         type: "list",
@@ -48,51 +47,91 @@ const promptUser = async () => {
       {
         type: "input",
         name: "contribution",
-        message: "How can other developers contribute to the project?",
+        message: "How can other developers contribute to the project? (Enter N/A if not required)",
       },
       {
         type: "input",
         name: "tests",
-        message: "What are your instructions for testing the application?",
+        message: "What are your instructions for testing the application? (Enter N/A if not required)",
       },
       {
         type: "input",
         name: "contact",
-        message: "How can contributors contact you about the project?",
+        message: "How can contributors contact you about the project? (Enter N/A if not required)",
       },
     ])
     .then((data) => {
       Object.assign(userData, data);
+      return userData;
     });
 };
 
-// in progress
 const generateMarkdown = async (userData) => {
-  await promptUser();
-  const readmeContent = readmeTemplate(userData);
-  console.log(readmeContent);
+  const readmeContent = `# ${userData.projectName}
+
+  ## Table of Contents
+  
+  - [Project Description](#project-Description)
+  - [Installation](#Installation)
+  - [Usage](#Usage)
+  - [License](#License)
+  - [Contribution](#Contribution)
+  - [Tests](#Tests)
+  - [Contact](#Contact)
+  
+  
+  ## Project Description
+  
+  ${userData.description}
+  
+  ## Installation
+  
+  ${userData.installation}
+  
+  ## Usage
+  
+  ${userData.usage}
+  
+  ## License
+  
+  ${userData.license} 
+  
+  ## Contribution
+  
+  ${userData.contribution}
+  
+  ## Tests
+  
+  ${userData.tests}
+  
+  ## Contact
+  
+  ${userData.contact}`;
+  return readmeContent;
 };
 
-const handleFileSystem = async (userData) => {
-  await promptUser();
-  await generateMarkdown(userData);
-  const folderPath = "./data-storage";
-  const fileName = `${userData.projectName
-    .toLowerCase()
-    .split(" ")
-    .join("")}.json`;
-  const filePath = path.join(__dirname, folderPath, `${fileName}`);
-  fs.writeFile(filePath, JSON.stringify(userData, null, "\t"));
-  return fileName;
+const handleSaveJson = async () => {
+  const saveJson = "./data-storage";
+  const fileName = `${userData.projectName.toLowerCase().split(" ").join("")}.json`;
+  const jsonPath = path.join(__dirname, saveJson, `${fileName}`);
+  fs.writeFile(jsonPath, JSON.stringify(userData, null, "\t"));
 };
 
-// in progress
-const writeMarkdownToFile = async (userData) => {
-  await generateMarkdown();
-  const folderPath = "./new-readme/";
+const handleSaveReadme = async () => {
+  const readmeContent = await generateMarkdown(userData);
+  const saveReadme = "./new-readme/";
   const fileName = `${userData.projectName}.md`;
-  const readmePath = path.join(__dirname, folderPath, `${fileName}`);
-  fs.writeFile(readmePath, readmeTemplate);
-
+  const readmePath = path.join(__dirname, saveReadme, `${fileName}`);
+  fs.writeFile(readmePath, readmeContent);
 };
-writeMarkdownToFile();
+
+promptUser()
+  .then(() => {
+    handleSaveJson();
+    return handleSaveReadme();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+module.exports = userData;
