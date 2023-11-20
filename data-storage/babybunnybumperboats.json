@@ -1,11 +1,11 @@
 {
 	"projectName": "Baby Bunny Bumper Boats",
 	"description": "Baby Bunny Bumper Boats offer whimsical aquatic adventures for little ones. These adorable, safe boats provide a joyful experience, as young ones navigate gentle waters with playful bunnies, creating precious memories.",
-	"installation": "Navigate to the BBBB Repo and clone it to your local machine.",
+	"installation": "Baby Bunny Bumper Boats offer whimsical aquatic adventures for little ones. These adorable, safe boats provide a joyful experience, as young ones navigate gentle waters with playful bunnies, creating precious memories.",
 	"usage": "Open Google. Navigate to GitHub.com/BBBB.",
 	"license": "Unlicense",
 	"contribution": "For the repo from the BBBB Git Hub repository linked below.",
-	"tests": "For the repo from the BBBB Git Hub repository linked below.",
+	"tests": "Fork the repo from the BBBB Git Hub repository linked below.",
 	"github": "BigBunny",
-	"email": "BigBunny@bunny.com"
+	"email": "BigBunny"
 }
